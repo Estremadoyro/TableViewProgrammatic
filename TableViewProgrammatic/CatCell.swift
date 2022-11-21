@@ -9,6 +9,8 @@ import UIKit
 
 final class CatCell: UITableViewCell {
     // MARK: State
+    static let reuseIdentifier: String = "CELL_ID"
+
     private lazy var container: UIView = {
         let container = UIView(frame: .zero)
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -28,22 +30,22 @@ final class CatCell: UITableViewCell {
     }()
 
     // MARK: Initializers
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        contentView.backgroundColor = .systemPink
+    /// This will only be run a few times as the cells get reused instead of re-initialized. Should only setupUI() style that is static and should need updates afterwards
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
 
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    /// **IMPORANT** awakeFormNib should only be used along with *Xibs or Storyboards* otherwise awakeFromNib will not be called inmediatly.
+
     // MARK: Methods
+    /// Setup dynamic cell-index dependant updates
     func setupCell(cat: Cat) {
-        let imageView = UIImageView()
-        imageView.getExternalImage(path: "www")
-
-        NetworkSingleton.shared.getResource(path: "www") { [imageView] externalImage in
-            imageView.image = externalImage
-        }
-
         breedLabel.text = cat.breedName
     }
 
@@ -62,28 +64,5 @@ final class CatCell: UITableViewCell {
             breedLabel.topAnchor.constraint(equalTo: container.topAnchor),
             breedLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
-    }
-}
-
-extension UIImageView {
-    func getExternalImage(path: String) {
-        // Network request
-        // get data
-        //
-        NetworkSingleton.shared.getResource(path: "www") { [weak self] externalImage in
-            self?.image = externalImage
-        }
-    }
-}
-
-final class NetworkSingleton {
-    static let shared = NetworkSingleton()
-    private init() {}
-
-    func getResource(path: String, completion: @escaping (UIImage?) -> Void) {
-        // get data
-        // make data into image
-        let image = UIImage(named: "")
-        completion(image)
     }
 }

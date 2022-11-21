@@ -12,8 +12,6 @@ final class MainController: UIViewController {
     /// # ViewModel
     private let viewModel = MainViewModel()
     
-    private static let cellId: String = "CELL_ID"
-
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,8 +26,9 @@ final class MainController: UIViewController {
 extension MainController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(CatCell.self, forCellReuseIdentifier: Self.cellId)
+        tableView.register(CatCell.self, forCellReuseIdentifier: CatCell.reuseIdentifier)
         tableView.dataSource = self
+        tableView.delegate = self
         setupUI()
     }
 }
@@ -58,7 +57,7 @@ private extension MainController {
 extension MainController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // crear celda
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellId, for: indexPath) as? CatCell else { fatalError("Unable to dequeue CatCell") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CatCell.reuseIdentifier, for: indexPath) as? CatCell else { fatalError("Unable to dequeue CatCell") }
         
         let cat: Cat = viewModel.dummyCats[indexPath.row]
         cell.setupCell(cat: cat)
@@ -68,5 +67,12 @@ extension MainController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.dummyCats.count
+    }
+}
+
+// MARK: Delegate
+extension MainController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50.0
     }
 }

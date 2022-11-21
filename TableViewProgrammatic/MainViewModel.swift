@@ -15,8 +15,4 @@ final class MainViewModel {
     init() {}
     
     // MARK: Methods
-    
-    func getResource() -> UIImage {
-        // netowkr request
-    }
 }

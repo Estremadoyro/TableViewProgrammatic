@@ -33,7 +33,7 @@ struct Cat: Decodable {
     }
 
     init() {
-        self.breedName = "Breed"
+        self.breedName = "Dummy Breed"
         self.origin = "Origin"
         self.affectionLevel = 1000
         self.intelligence = 1000
@@ -41,18 +41,7 @@ struct Cat: Decodable {
     }
 
     static func getDummyCats() -> [Cat] {
-        return [
-            Cat(),
-            Cat(),
-            Cat(),
-            Cat(),
-            Cat(),
-            Cat(),
-            Cat(),
-            Cat(),
-            Cat(),
-            Cat(),
-        ]
+        return Array(repeating: Cat(), count: 20)
     }
 }
 
