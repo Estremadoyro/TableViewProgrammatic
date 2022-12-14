@@ -41,6 +41,12 @@ final class CatCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Always reset values before reusing a cell to save memory
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        breedLabel.text = nil
+    }
+    
     /// **IMPORANT** awakeFormNib should only be used along with *Xibs or Storyboards* otherwise awakeFromNib will not be called inmediatly.
 
     // MARK: Methods
