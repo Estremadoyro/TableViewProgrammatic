@@ -44,7 +44,7 @@ final class CatCell: UITableViewCell {
     /// **IMPORANT** awakeFormNib should only be used along with *Xibs or Storyboards* otherwise awakeFromNib will not be called inmediatly.
 
     // MARK: Methods
-    /// Setup dynamic cell-index dependant updates
+    /// Setup dynamic cell-index dependant updates.
     func setupCell(cat: Cat) {
         breedLabel.text = cat.breedName
     }
